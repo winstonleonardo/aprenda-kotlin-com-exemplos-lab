@@ -2,20 +2,51 @@
 
 enum class Nivel { BASICO, INTERMEDIARIO, DIFICIL }
 
-class Usuario
+class Usuario(val nome: String)
 
 data class ConteudoEducacional(var nome: String, val duracao: Int = 60)
 
-data class Formacao(val nome: String, var conteudos: List<ConteudoEducacional>) {
+data class Formacao(val nome: String, var conteudos: List<ConteudoEducacional>, val nivel: Nivel) {
 
     val inscritos = mutableListOf<Usuario>()
-    
+
     fun matricular(usuario: Usuario) {
-        TODO("Utilize o parâmetro $usuario para simular uma matrícula (usar a lista de $inscritos).")
+        inscritos.add(usuario) // Adiciona o usuário à lista de inscritos
+        println("Usuário ${usuario.nome} matriculado na formação $nome.")
     }
 }
 
 fun main() {
-    TODO("Analise as classes modeladas para este domínio de aplicação e pense em formas de evoluí-las.")
-    TODO("Simule alguns cenários de teste. Para isso, crie alguns objetos usando as classes em questão.")
+    // Criando alguns conteúdos educacionais
+    val kotlinBasico = ConteudoEducacional("Introdução ao Kotlin", 120)
+    val kotlinIntermediario = ConteudoEducacional("Kotlin Avançado", 180)
+    val kotlinProjetos = ConteudoEducacional("Projetos Práticos com Kotlin", 240)
+
+    // Criando uma formação
+    val formacaoKotlin = Formacao(
+        nome = "Formação Kotlin",
+        conteudos = listOf(kotlinBasico, kotlinIntermediario, kotlinProjetos),
+        nivel = Nivel.INTERMEDIARIO
+    )
+
+    // Criando usuários
+    val usuario1 = Usuario("Winston")
+    val usuario2 = Usuario("Leonardo")
+
+    // Matriculando usuários
+    formacaoKotlin.matricular(usuario1)
+    formacaoKotlin.matricular(usuario2)
+
+    // Exibindo informações da formação
+    println("Formação: ${formacaoKotlin.nome} (${formacaoKotlin.nivel})")
+    println("Conteúdos:")
+    formacaoKotlin.conteudos.forEach { 
+        println("- ${it.nome} (Duração: ${it.duracao} minutos)") 
+    }
+
+    println("Inscritos:")
+    formacaoKotlin.inscritos.forEach { 
+        println("- ${it.nome}") 
+    }
 }
+
